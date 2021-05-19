@@ -1,0 +1,14 @@
+{
+    "Models": {
+        "limit": 10,
+        "usage": 6
+    },
+    "Apps": {
+        "limit": 20,
+        "usage": 10
+    },
+    "Devices": {
+        "limit": 50,
+        "usage": 45
+    }
+}

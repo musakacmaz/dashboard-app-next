@@ -1,3 +1,3 @@
 export default function Models() {
-    return <h1 className="title">Models</h1>;
+    return <h3 className="title">Models</h3>;
 }

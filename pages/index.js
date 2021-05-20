@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Container, Row, Col } from 'react-bootstrap';
 import { LimitsAndUsage, LatestActivity, Models, Applications } from '../components';
 
-export default function Home() {
+function Home({ usageData }) {
     return (
         <Container id="body">
             <Head>
@@ -20,7 +20,7 @@ export default function Home() {
                         <Container id="sidebar" style={{ border: '1px solid red' }} fluid>
                             <Row>
                                 <Col>
-                                    <LimitsAndUsage />
+                                    <LimitsAndUsage data={usageData} />
                                 </Col>
                             </Row>
                             <Row>
@@ -49,3 +49,11 @@ export default function Home() {
         </Container>
     );
 }
+
+export async function getServerSideProps() {
+  const { default: usageRes } = await import('../data/usage.json');
+  const usageData = JSON.parse(JSON.stringify(usageRes));
+  return { props: { usageData } }
+}
+
+export default Home;

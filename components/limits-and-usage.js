@@ -1,35 +1,36 @@
 import { ListGroup, ProgressBar } from 'react-bootstrap';
 
-export default function LimitsAndUsage() {
-    const data = {
-        Models: {
-            limit: 10,
-            usage: 6,
-        },
-        Apps: {
-            limit: 20,
-            usage: 10,
-        },
-        Devices: {
-            limit: 50,
-            usage: 45,
-        },
-    };
+function getProgressBarVariant(percentage) {
+    let variant = "";
+    if (percentage >= 0 && percentage <= 50) {
+        variant = "success";
+    }
+    else if (percentage <= 75) {
+        variant = "warning";
+    }
+    else if (percentage <= 100) {
+        variant = "danger";
+    }
+    return variant;
+}
 
+export default function LimitsAndUsage({ data }) {
     const itemList = [];
     let index = 0;
     for (const item in data) {
         const percentage = (data[item].usage / data[item].limit) * 100;
+        const variant = getProgressBarVariant(percentage);
         itemList.push(
             <ListGroup.Item key={index}>
-                <ProgressBar variant="success" now={percentage} />
+                <h5 className="title">{item}</h5>
+                <ProgressBar variant={variant} now={percentage} label={`${percentage}%`} />
             </ListGroup.Item>
         );
         index++;
     }
     return (
         <>
-            <h2 className="title">Limits and Usage</h2>
+            <h3 className="title">Limits and Usage</h3>
             <ListGroup>{itemList}</ListGroup>
         </>
     );

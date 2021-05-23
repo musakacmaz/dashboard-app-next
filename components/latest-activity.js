@@ -7,9 +7,9 @@ export default function LatestActivity({ data }) {
             <ListGroup variant="flush">
                 {data.map(({ type, desc, date }, index) => (
                     <ListGroup.Item key={index}>
-                        <text>
+                        <p>
                             <strong>{type}</strong> {desc} - <i>{date}</i>
-                        </text>
+                        </p>
                     </ListGroup.Item>
                 ))}
             </ListGroup>

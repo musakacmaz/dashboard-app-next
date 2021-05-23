@@ -2,16 +2,18 @@ import Head from 'next/head';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
 import { LimitsAndUsage, LatestActivity, Models, Applications } from '../components';
-import { useGetApplications } from '../useRequest';
+import { useGetData } from '../useRequest';
 
 function Home({ usageData, activitiesData }) {
-    const { applicationsData, error } = useGetApplications('/applications');
-    if (error) return <Alert variant="danger">Something went wrong!</Alert>;
-    if (!applicationsData)
+    const { applicationsData, fetchApplicationsError, modelsData, fetchModelsError } = useGetData();
+    if (fetchApplicationsError || fetchModelsError) return <Alert variant="danger">Error loading data!</Alert>;
+    if (!applicationsData || !modelsData)
         return (
-            <Spinner animation="border" role="status" variant="primary">
-                <span className="sr-only">Loading...</span>
-            </Spinner>
+            <div style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
+                <Spinner animation="border" role="status" variant="primary">
+                    <span className="sr-only">Loading data...</span>
+                </Spinner>
+            </div>
         );
 
     return (
@@ -25,10 +27,10 @@ function Home({ usageData, activitiesData }) {
                 <Navbar.Brand>Dashboard</Navbar.Brand>
             </Navbar>
 
-            <Container id="main" style={{ border: '1px solid purple' }} fluid>
+            <Container id="main" fluid>
                 <Row>
                     <Col sm={4}>
-                        <Container id="sidebar" style={{ border: '1px solid red' }} fluid>
+                        <Container id="sidebar" fluid>
                             <Row>
                                 <Col>
                                     <LimitsAndUsage data={usageData} />
@@ -43,13 +45,12 @@ function Home({ usageData, activitiesData }) {
                         </Container>
                     </Col>
                     <Col sm={8}>
-                        <Container id="content" style={{ border: '1px solid red' }} fluid>
+                        <Container id="content" fluid>
                             <Row>
                                 <Col>
-                                    <Models />
+                                    <Models data={modelsData} />
                                 </Col>
                             </Row>
-                            <br></br>
                             <Row>
                                 <Col>
                                     <Applications data={applicationsData} />

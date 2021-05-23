@@ -14,13 +14,13 @@ export default function Applications({ data }) {
                             {platforms.length > 0 ? (
                                 platforms.map(({ id, platform, modelTarget: { model, runtime, version } }) => (
                                     <ListGroup.Item key={id}>
-                                        <text>
+                                        <p>
                                             {platform} - {runtime} / {model} / {version}
-                                        </text>
+                                        </p>
                                     </ListGroup.Item>
                                 ))
                             ) : (
-                                <text>No Data</text>
+                                <p>No Data</p>
                             )}
                         </Card.Body>
                     </Card>

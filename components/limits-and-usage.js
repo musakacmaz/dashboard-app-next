@@ -22,7 +22,7 @@ export default function LimitsAndUsage({ data }) {
             <ListGroup.Item key={index}>
                 <h5 className="title">{item}</h5>
                 <ProgressBar variant={variant} now={percentage} label={`${percentage}%`} />
-            </ListGroup.Item>
+            </ListGroup.Item>,
         );
         index++;
     }

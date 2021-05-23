@@ -1,11 +1,21 @@
 import Head from 'next/head';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Container, Row, Col } from 'react-bootstrap';
+import { Navbar, Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
 import { LimitsAndUsage, LatestActivity, Models, Applications } from '../components';
+import { useGetApplications } from '../useRequest';
 
-function Home({ usageData }) {
+function Home({ usageData, activitiesData }) {
+    const { applicationsData, error } = useGetApplications('/applications');
+    if (error) return <Alert variant="danger">Something went wrong!</Alert>;
+    if (!applicationsData)
+        return (
+            <Spinner animation="border" role="status" variant="primary">
+                <span className="sr-only">Loading...</span>
+            </Spinner>
+        );
+
     return (
-        <Container id="body">
+        <>
             <Head>
                 <title>Dashboard</title>
                 <link rel="icon" href="/favicon.ico" />
@@ -14,6 +24,7 @@ function Home({ usageData }) {
             <Navbar bg="dark" variant="dark" expand="lg">
                 <Navbar.Brand>Dashboard</Navbar.Brand>
             </Navbar>
+
             <Container id="main" style={{ border: '1px solid purple' }} fluid>
                 <Row>
                     <Col sm={4}>
@@ -23,9 +34,10 @@ function Home({ usageData }) {
                                     <LimitsAndUsage data={usageData} />
                                 </Col>
                             </Row>
+                            <br></br>
                             <Row>
                                 <Col>
-                                    <LatestActivity />
+                                    <LatestActivity data={activitiesData} />
                                 </Col>
                             </Row>
                         </Container>
@@ -37,23 +49,25 @@ function Home({ usageData }) {
                                     <Models />
                                 </Col>
                             </Row>
+                            <br></br>
                             <Row>
                                 <Col>
-                                    <Applications />
+                                    <Applications data={applicationsData} />
                                 </Col>
                             </Row>
                         </Container>
                     </Col>
                 </Row>
             </Container>
-        </Container>
+        </>
     );
 }
 
 export async function getServerSideProps() {
-  const { default: usageRes } = await import('../data/usage.json');
-  const usageData = JSON.parse(JSON.stringify(usageRes));
-  return { props: { usageData } }
+    const [{ default: usageRes }, { default: activitiesRes }] = await Promise.all([import('../data/usage.json'), import('../data/activities.json')]);
+    const usageData = JSON.parse(JSON.stringify(usageRes));
+    const activitiesData = JSON.parse(JSON.stringify(activitiesRes));
+    return { props: { usageData, activitiesData } };
 }
 
 export default Home;

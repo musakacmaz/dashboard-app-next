@@ -1,15 +1,13 @@
 import { ListGroup, ProgressBar } from 'react-bootstrap';
 
 function getProgressBarVariant(percentage) {
-    let variant = "";
-    if (percentage >= 0 && percentage <= 50) {
-        variant = "success";
-    }
-    else if (percentage <= 75) {
-        variant = "warning";
-    }
-    else if (percentage <= 100) {
-        variant = "danger";
+    let variant = '';
+    if (percentage <= 50) {
+        variant = 'success';
+    } else if (percentage <= 75) {
+        variant = 'warning';
+    } else {
+        variant = 'danger';
     }
     return variant;
 }

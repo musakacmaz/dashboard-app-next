@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
-const baseUrl = 'http://localhost:3000/api';
+const baseUrl = '/api';
 const API_ROUTES = { APPS: '/applications', MODELS: '/models' };
 
 export const useGetData = () => {

@@ -1,8 +1,7 @@
 import Head from 'next/head';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
 import { LimitsAndUsage, LatestActivity, Models, Applications } from '../components';
-import { useGetData } from '../useRequest';
+import { useGetData } from '../hooks/useRequest';
 
 function Home({ usageData, activitiesData }) {
     const { applicationsData, fetchApplicationsError, modelsData, fetchModelsError } = useGetData();
